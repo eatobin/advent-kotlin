@@ -3,7 +3,7 @@ package day01
 import java.io.BufferedReader
 import java.io.File
 
-val bufferedReader: BufferedReader = File("src/main/kotlin/day01/day01.txt").bufferedReader()
+val bufferedReader: BufferedReader = File("src/main/resources/day01.txt").bufferedReader()
 val inputString: String = bufferedReader.use { it.readText() }
 val gasList: List<Int> = inputString.trim().lines().map { it.toInt() }
 
