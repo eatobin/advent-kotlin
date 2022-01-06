@@ -13,6 +13,20 @@ fun gas(m: Int): Int = (m / 3) - 2
 
 val answer: Int = gasList.sumOf { gas(it) }
 
+// part b
+tailrec fun gasPlus(m: Int, accum: Int = 0): Int {
+    val newGas: Int = gas(m)
+    return if (newGas <= 0) {
+        accum
+    } else {
+        gasPlus(newGas, accum + newGas)
+    }
+}
+
+val answer2: Int = gasList.sumOf { gasPlus(it) }
+
 fun main() {
     println("Answer Part A: $answer") // 3337766
+
+    println("Answer Part B: $answer2") // 5003788
 }
