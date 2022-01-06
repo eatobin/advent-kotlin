@@ -7,7 +7,6 @@ val bufferedReader: BufferedReader = File("src/main/kotlin/day01/day01.txt").buf
 val inputString: String = bufferedReader.use { it.readText() }
 val gasList: List<Int> = inputString.trim().lines().map { it.toInt() }
 
-
 // part a
 fun gas(m: Int): Int = (m / 3) - 2
 
