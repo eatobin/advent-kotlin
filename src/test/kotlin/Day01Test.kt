@@ -1,5 +1,3 @@
-package day01
-
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
