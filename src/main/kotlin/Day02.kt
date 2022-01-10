@@ -92,17 +92,47 @@ tailrec fun opCode(ic: IntCode): IntCode {
     }
 }
 
+fun updatedMemory(memory: Memory, noun: Int, verb: Int): Memory {
+    val mMemory = memory.toMutableMap()
+    mMemory[1] = noun
+    mMemory[2] = verb
+    return mMemory.toMap()
+}
+
+//func nounVerb() int {
+//    var noun int
+//    var verb int
+//
+//    out:
+//    for noun = 0; noun < 101; noun++ {
+//        for verb = 0; verb < 101; verb++ {
+//        tv := MakeMemory(fp)
+//        candidate := OpCode(IntCode{Pointer: 0, Memory: updatedMemory(tv, noun, verb)}).Memory[0]
+//        if candidate == 19690720 {
+//            break out
+//        }
+//    }
+//    }
+//    return (100 * noun) + verb
+//}
+
 fun main() {
     // part A
     val memory = makeMemory(fp)
-    fun updatedMemory(noun: Int, verb: Int): Memory {
-        val newNoun = updateMemory(memory, 1, noun)
-        return updateMemory(newNoun, 2, verb)
-    }
-
-    val ic: IntCode = opCode(IntCode(pointer = 0, memory = updatedMemory(noun = 12, verb = 2)))
+    val ic: IntCode = opCode(IntCode(pointer = 0, memory = updatedMemory(memory = memory, noun = 12, verb = 2)))
     val answer: Int = ic.memory[0]!!
     println("Answer Part A: $answer")
 
 // Answer Part A: 2890696
+
+// part B
+//    val answer2: Int = (for {noun <- Range.inclusive(0, 99)
+//        verb <- Range.inclusive(0, 99)
+//        candidate: Int = IntCode.opCode(IntCode(pointer = 0, memory = updatedMemory(noun = noun)(verb = verb))).memory(0)
+//        if candidate == 19690720
+//    } yield (100 * noun) + verb).head
+//
+//    println(s"Answer Part B: $answer2")
+
+// Answer Part B: 8226
 }
