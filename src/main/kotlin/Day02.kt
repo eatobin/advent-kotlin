@@ -56,7 +56,7 @@ fun cParam(instruction: Instruction, ic: IntCode): Int {
 }
 
 fun updateMemory(memory: Memory, index: Int, value: Int): Memory {
-    val mMemory: MutableMap<Int, Int> = memory.toMutableMap()
+    val mMemory = memory.toMutableMap()
     mMemory[index] = value
     return mMemory.toMap()
 }
