@@ -55,6 +55,43 @@ fun cParam(instruction: Instruction, ic: IntCode): Int {
     }
 }
 
+fun updateMemory(memory: Memory, index: Int, value: Int): Memory {
+    val mMemory: MutableMap<Int, Int> = memory.toMutableMap()
+    mMemory[index] = value
+    return mMemory.toMap()
+}
+
+tailrec fun opCode(ic: IntCode): IntCode {
+    val instruction: Instruction = pad5(ic.memory[ic.pointer]!!)
+    if (instruction['d'] == 9) {
+        return ic
+    } else {
+        return when (instruction['e']) {
+            1 -> opCode(
+                IntCode(
+                    pointer = ic.pointer + 4,
+                    memory = updateMemory(
+                        ic.memory,
+                        aParam(instruction, ic),
+                        bParam(instruction, ic) + cParam(instruction, ic)
+                    ).toMap()
+                )
+            )
+            2 -> opCode(
+                IntCode(
+                    pointer = ic.pointer + 4,
+                    memory = updateMemory(
+                        ic.memory,
+                        aParam(instruction, ic),
+                        bParam(instruction, ic) * cParam(instruction, ic)
+                    ).toMap()
+                )
+            )
+            else -> ic
+        }
+    }
+}
+
 fun main() {
     println(makeMemory(fp))
     println(charToInt(57))
