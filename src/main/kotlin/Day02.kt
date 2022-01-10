@@ -93,7 +93,16 @@ tailrec fun opCode(ic: IntCode): IntCode {
 }
 
 fun main() {
-    println(makeMemory(fp))
-    println(charToInt(57))
-    println(pad5(101))
+    // part A
+    val memory = makeMemory(fp)
+    fun updatedMemory(noun: Int, verb: Int): Memory {
+        val newNoun = updateMemory(memory, 1, noun)
+        return updateMemory(newNoun, 2, verb)
+    }
+
+    val ic: IntCode = opCode(IntCode(pointer = 0, memory = updatedMemory(noun = 12, verb = 2)))
+    val answer: Int = ic.memory[0]!!
+    println("Answer Part A: $answer")
+
+// Answer Part A: 2890696
 }
