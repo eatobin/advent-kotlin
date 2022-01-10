@@ -66,8 +66,8 @@ tailrec fun opCode(ic: IntCode): IntCode {
     if (instruction['d'] == 9) {
         return ic
     } else {
-        return when (instruction['e']) {
-            1 -> opCode(
+        when (instruction['e']) {
+            1 -> return opCode(
                 IntCode(
                     pointer = ic.pointer + 4,
                     memory = updateMemory(
@@ -77,7 +77,7 @@ tailrec fun opCode(ic: IntCode): IntCode {
                     ).toMap()
                 )
             )
-            2 -> opCode(
+            2 -> return opCode(
                 IntCode(
                     pointer = ic.pointer + 4,
                     memory = updateMemory(
@@ -87,7 +87,7 @@ tailrec fun opCode(ic: IntCode): IntCode {
                     ).toMap()
                 )
             )
-            else -> ic
+            else -> throw Exception("opcode is not valid")
         }
     }
 }
