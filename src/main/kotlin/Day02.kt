@@ -21,6 +21,21 @@ fun makeMemory(file: String): Memory {
     return (intList.indices).zip(intList).toMap()
 }
 
+fun charToInt(aChar: Byte): Int {
+    if (aChar < 48 || aChar > 57) {
+        throw Exception("Char is not an integer")
+    } else {
+        return (aChar - 48)
+    }
+}
+
+fun pad5(op: Int): Instruction {
+    val inInts = "%05d".format(op).toByteArray().map { charToInt(it) }
+    return listOf('a', 'b', 'c', 'd', 'e').zip(inInts).toMap()
+}
+
 fun main() {
     println(makeMemory(fp))
+    println(charToInt(57))
+    println(pad5(101))
 }
