@@ -69,14 +69,14 @@ tailrec fun opCode(ic: IntCode): IntCode {
                 IntCode(
                     pointer = ic.pointer + 4, memory = updateMemory(
                         ic.memory, aParam(instruction, ic), bParam(instruction, ic) + cParam(instruction, ic)
-                    ).toMap()
+                    )
                 )
             )
             2 -> return opCode(
                 IntCode(
                     pointer = ic.pointer + 4, memory = updateMemory(
                         ic.memory, aParam(instruction, ic), bParam(instruction, ic) * cParam(instruction, ic)
-                    ).toMap()
+                    )
                 )
             )
             else -> throw Exception("opcode is not valid")
