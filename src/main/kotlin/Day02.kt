@@ -10,12 +10,7 @@ const val offsetA = 3
 
 fun makeMemory(file: String): Memory {
     val bufferedReader = File(file).bufferedReader()
-    val intList =
-        bufferedReader
-            .use { it.readText() }
-            .trim()
-            .split(",")
-            .map { it.toInt() }
+    val intList = bufferedReader.use { it.readText() }.trim().split(",").map { it.toInt() }
     return (intList.indices).zip(intList).toMap()
 }
 
@@ -35,24 +30,27 @@ fun pad5(op: Int): Instruction {
 data class IntCode(val pointer: Int, val memory: Memory)
 
 fun aParam(instruction: Instruction, ic: IntCode): Int {
-    return when (instruction['a']) {
-        0 -> ic.memory[ic.pointer + offsetA]!! // a-p-w
-        else -> 99
+    var param = 0
+    when (instruction['a']) {
+        0 -> param = ic.memory[ic.pointer + offsetA]!! // a-p-w
     }
+    return param
 }
 
 fun bParam(instruction: Instruction, ic: IntCode): Int {
-    return when (instruction['b']) {
-        0 -> ic.memory[ic.memory[ic.pointer + offsetB]]!! // b-p-r
-        else -> 99
+    var param = 0
+    when (instruction['b']) {
+        0 -> param = ic.memory[ic.memory[ic.pointer + offsetB]]!! // b-p-r
     }
+    return param
 }
 
 fun cParam(instruction: Instruction, ic: IntCode): Int {
-    return when (instruction['c']) {
-        0 -> ic.memory[ic.memory[ic.pointer + offsetC]]!! // c-p-r
-        else -> 99
+    var param = 0
+    when (instruction['c']) {
+        0 -> param = ic.memory[ic.memory[ic.pointer + offsetC]]!! // c-p-r
     }
+    return param
 }
 
 fun updateMemory(memory: Memory, index: Int, value: Int): Memory {
@@ -69,21 +67,15 @@ tailrec fun opCode(ic: IntCode): IntCode {
         when (instruction['e']) {
             1 -> return opCode(
                 IntCode(
-                    pointer = ic.pointer + 4,
-                    memory = updateMemory(
-                        ic.memory,
-                        aParam(instruction, ic),
-                        bParam(instruction, ic) + cParam(instruction, ic)
+                    pointer = ic.pointer + 4, memory = updateMemory(
+                        ic.memory, aParam(instruction, ic), bParam(instruction, ic) + cParam(instruction, ic)
                     ).toMap()
                 )
             )
             2 -> return opCode(
                 IntCode(
-                    pointer = ic.pointer + 4,
-                    memory = updateMemory(
-                        ic.memory,
-                        aParam(instruction, ic),
-                        bParam(instruction, ic) * cParam(instruction, ic)
+                    pointer = ic.pointer + 4, memory = updateMemory(
+                        ic.memory, aParam(instruction, ic), bParam(instruction, ic) * cParam(instruction, ic)
                     ).toMap()
                 )
             )
