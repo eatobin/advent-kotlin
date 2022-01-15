@@ -53,12 +53,6 @@ fun cParam(instruction: Instruction, ic: IntCode): Int {
     return param
 }
 
-//fun updateMemory(memory: Memory, index: Int, value: Int): Memory {
-//    val mMemory = memory.toMutableMap()
-//    mMemory[index] = value
-//    return mMemory.toMap()
-//}
-
 fun opCode(ic: IntCode): Int {
     val instruction: Instruction = pad5(ic.memory[ic.pointer]!!)
     if (instruction['d'] == 9) {
@@ -80,41 +74,47 @@ fun opCode(ic: IntCode): Int {
     }
 }
 
-//fun updatedMemory(memory: Memory, noun: Int, verb: Int): Memory {
-//    val mMemory = memory.toMutableMap()
-//    mMemory[1] = noun
-//    mMemory[2] = verb
-//    return mMemory.toMap()
-//}
-//
-//fun nounVerb(): Int {
-//    var noun = 0
-//    var verb = 0
-//
-//    out@ while (noun < 101) {
-//        while (verb < 101) {
-//            val tv = makeMemory(fp)
-//            val candidate =
-//                opCode(IntCode(pointer = 0, memory = updatedMemory(memory = tv, noun = noun, verb = verb))).memory[0]!!
-//            if (candidate == 19690720) {
-//                break@out
-//            }
-//            verb++
-//        }
-//        noun++
-//        verb = 0
-//    }
-//    return (100 * noun) + verb
-//}
-//
-//fun main() {
-//    // part A
-//    val memory = makeMemory(fp)
-//    val ic: IntCode = opCode(IntCode(pointer = 0, memory = updatedMemory(memory = memory, noun = 12, verb = 2)))
-//    val answer: Int = ic.memory[0]!!
-//    println("Answer Part A: $answer") // 2890696
-//
-//    // part B
-//    val answer2: Int = nounVerb()
-//    println("Answer Part B: $answer2") // 8226
-//}
+fun updatedMemory(memory: Memory, noun: Int, verb: Int): Memory {
+    memory[1] = noun
+    memory[2] = verb
+    return memory
+}
+
+fun nounVerb(): Int {
+    var noun = 0
+    var verb = 0
+
+    out@ while (noun < 101) {
+        while (verb < 101) {
+            val tv = makeMemory(fp)
+            val ic = IntCode(pointer = 0, memory = updatedMemory(memory = tv, noun = noun, verb = verb))
+            var icReturn = 1
+            while (icReturn == 1) {
+                icReturn = opCode(ic)
+            }
+            if (ic.memory[0] == 19690720) {
+                break@out
+            }
+            verb++
+        }
+        noun++
+        verb = 0
+    }
+    return (100 * noun) + verb
+}
+
+fun main() {
+    // part A
+    val memory = makeMemory(fp)
+    val ic = IntCode(pointer = 0, memory = updatedMemory(memory = memory, noun = 12, verb = 2))
+    var icReturn = 1
+    while (icReturn == 1) {
+        icReturn = opCode(ic)
+    }
+    val answer: Int = ic.memory[0]!!
+    println("Answer Part A: $answer") // 2890696
+
+    // part B
+    val answer2: Int = nounVerb()
+    println("Answer Part B: $answer2") // 8226
+}
